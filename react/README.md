@@ -15,6 +15,7 @@
   1. [Tags](#tags)
   1. [Methods](#methods)
   1. [Ordering](#ordering)
+  1. [TDD](#tdd)
 
 ## Basic Rules
 
@@ -33,7 +34,7 @@
       return <div />;
     }
   });
-  
+
   // good
   class Listing extends React.Component {
     render() {
@@ -239,7 +240,7 @@
 ## Ordering
 
   - Ordering for class extends React.Component:
-  
+
   1. constructor
   1. optional static methods
   1. getChildContext
@@ -259,27 +260,27 @@
 
   ```javascript
   import React, { Component, PropTypes } from 'react';
-  
+
   const propTypes = {
     id: PropTypes.number.isRequired,
     url: PropTypes.string.isRequired,
     text: PropTypes.string,
   };
-  
+
   const defaultProps = {
     text: 'Hello World',
   };
-  
+
   export default class Link extends Component {
     static methodsAreOk() {
       return true;
     }
-  
+
     render() {
       return <a href={this.props.url} data-id={this.props.id}>{this.props.text}</a>
     }
   }
-  
+
   Link.propTypes = propTypes;
   Link.defaultProps = defaultProps;
   ```
@@ -308,4 +309,51 @@
   1. *Optional render methods* like renderNavigation() or renderProfilePicture()
   1. render
 
+
+
+
 **[⬆ back to top](#table-of-contents)**
+
+## TDD
+
+#### UNIT
+
+ - Always use actual and expected variables to express the promise
+
+   ```javascript
+   // bad
+   expect(comp.state.registrationViews).toBe(2)
+
+   // good
+   const actual = comp.state.registrationViews
+   const expected = 2
+   expect(actual).toBe(expected);
+   ```
+
+ - When we test a event function then we pass an event object as below
+
+      ```javascript
+      const mockEvent = {
+          preventDefault () {
+              return
+          }
+      }
+      ```
+ - When we want to check if our function throw errors we write the expect promise as below
+   ```javascript
+        expect(function () {
+          SignUp.prototype.loginWithPasswordCallback(mockError)
+        }).toThrowError();
+   ```
+
+
+ - Ordering inside Unit Test
+
+  1. Mock data
+  1. Render Component (Shallow or Nomral)  
+  1. Spys
+
+ - Ordering of unit tests inside functionality tests
+
+  1. Check Click Events
+  1. Components Functions
